@@ -1,101 +1,98 @@
-import "../styles/ExpenseForm.css";
 import { useState } from "react";
+import "../styles/ExpenseForm.css";
 
 export default function ExpenseForm() {
-  const [errors, setErrors] = useState({});
+const [formData, setFormData] = useState({
+    amount: '',
+    description: '',
+    date: new Date().toISOString().split('T')[0],
+    category: '',
+  });
+    const [errors, setErrors] = useState({});
 
-  function handleSubmit(event) {
-    event.preventDefault();
+ const handleChange = (e) => {
+    const { name, value } = e.target;
 
-    const formData = new FormData(event.currentTarget);
-    const expense = {
-      amount: formData.get("amount").trim(),
-      description: formData.get("description").trim(),
-      date: formData.get("date"),
-      category: formData.get("category"),
-    };
+    setFormData(prev => ({
+      ...prev,
+      [name]: name === "amount" && value !== "" ? Number(value) : value,
+    }));
+  };
+  const validate=()=>{
+    const newErrors = {};
 
-    const validationErrors = {};
-
-    if (!expense.amount || Number(expense.amount) <= 0) {
-      validationErrors.amount = "Enter an amount greater than 0.";
+    if (!formData.amount || formData.amount <= 0) {
+      newErrors.amount = 'Enter an amount greater than 0';
+    }
+    if (!formData.description.trim()) {
+      newErrors.description = 'Description is required';
+    }
+    if (!formData.date) {
+      newErrors.date = 'Date is required';
+    }
+    if (!formData.category) {
+      newErrors.category = 'Select a category';
     }
 
-    if (!expense.description) {
-      validationErrors.description = "Enter a description.";
-    }
-
-    if (!expense.date) {
-      validationErrors.date = "Select a date.";
-    }
-
-    if (!expense.category) {
-      validationErrors.category = "Select a category.";
-    }
-
-    setErrors(validationErrors);
-
-    if (Object.keys(validationErrors).length > 0) {
-      return;
-    }
-
-    console.log("Expense added:", {
-      ...expense,
-      amount: Number(expense.amount),
-    });
-    event.currentTarget.reset();
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   }
+  const handleSubmit=(e)=>{
+    e.preventDefault();
+    if (!validate()) return;
 
+    console.log("Expense Added Successfully",
+      formData.amount,formData.description,formData.date,formData.category);
+  }
   return (
     <div className="expenseform">
-      <form onSubmit={handleSubmit} noValidate>
+     <form action="" onSubmit={handleSubmit} >
         <h1>Expense Form</h1>
-
         <input
           type="number"
           name="amount"
           placeholder="Enter amount.."
-          min="0.01"
-          step="0.01"
-          aria-invalid={Boolean(errors.amount)}
+          value={formData.amount}
+          onChange={handleChange}
         />
-        {errors.amount && <p role="alert">{errors.amount}</p>}
-
+        {errors.amount && <p className="validation">
+          {errors.amount}</p>}
         <input
           type="text"
-          name="description"
           placeholder="Enter Description.."
-          aria-invalid={Boolean(errors.description)}
+          name="description"
+          value={formData.description}
+          onChange={handleChange}
         />
-        {errors.description && <p role="alert">{errors.description}</p>}
-
+        {errors.description && <p className="validation">
+          {errors.description}</p>}
         <input
           type="date"
-          name="date"
           placeholder="Enter Date.."
-          aria-invalid={Boolean(errors.date)}
+          name="date"
+          value={formData.date}
+          onChange={handleChange}
         />
-        {errors.date && <p role="alert">{errors.date}</p>}
-
-        <label htmlFor="category">Category:</label>
+        {errors.date && <p className="validation">
+          {errors.date}</p>}
+        <label htmlFor="">Category:</label>&nbsp;&nbsp;&nbsp;
         <select
-          id="category"
+          value={formData.category}
+          onChange={handleChange}
           name="category"
-          defaultValue=""
-          aria-invalid={Boolean(errors.category)}
         >
           <option value="">Select Category</option>
           <option value="food">Food</option>
           <option value="shopping">Shopping</option>
           <option value="Transportation">Transportation</option>
-          <option value="education">Education</option>
-          <option value="phoneBill">Phone Bill</option>
-          <option value="entertainment">Entertainment</option>
+          <option value="education"> Education</option>
+          <option value="phoneBill"> Phone Bill</option>
+          <option value="entertainment"> Entertainment</option>
         </select>
-        {errors.category && <p role="alert">{errors.category}</p>}
-
+        {errors.category && <p className="validation">
+          {errors.category}</p>}
         <div className="btn">
-          <button type="submit">Add Expense</button>
+          <button>Add Expense</button>
         </div>
       </form>
     </div>

@@ -1,0 +1,105 @@
+
+/* Main navbar background */
+.main-container {
+  background-color: #5A7ACD;
+}
+
+/* Navbar layout */
+.nav-container {
+  width: min(100% - 40px, 1500px);
+  padding: 14px 20px;
+  display: flex;
+  margin: auto;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* App title */
+.nav-container h1 {
+  color: #ffffff;
+  font-size: 26px;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Nav links wrapper */
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 35px;
+}
+
+.nav-link ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Nav links */
+.links {
+  display: inline-block;
+  text-decoration: none;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+/* Hover effect */
+.links:hover {
+  background-color: #FEB05D;
+  color: #2B2A2A;
+}
+
+@media (max-width: 768px) {
+  .nav-container {
+    width: min(100% - 24px, 1500px);
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .nav-link {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .links {
+    font-size: 16px;
+    padding: 7px 9px;
+  }
+}
+
+/* Design-only action items */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.theme-toggle {
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: transparent;
+  color: #ffffff;
+  cursor: default;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logout-btn {
+  background-color: #FEB05D;
+  color: #2B2A2A;
+  font-weight: 600;
+}
+
+.logout-btn:hover {
+  background-color: #ffffff;
+  color: #2B2A2A;
+}
